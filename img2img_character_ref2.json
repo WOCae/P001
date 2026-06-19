@@ -1,0 +1,553 @@
+{
+  "last_node_id": 120,
+  "last_link_id": 121,
+  "nodes": [
+    {
+      "id": 105,
+      "type": "MarkdownNote",
+      "pos": [-970, 100],
+      "size": [590, 760],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "## Img2Img + Character Reference + IP-Adapter ワークフロー\n\n- ベース画像 (base_image.png) の構図・ポーズを維持\n- キャラクターは base2 (character_ref.png) に統一\n- anima-base-v1.0 + qwen_3_06b_base + qwen_image_vae\n- IP-Adapter でキャラ一貫性を強化\n\n推奨パラメータ:\n- 解像度: 512²〜1536²\n- Steps: 30〜50\n- CFG: 4〜5\n- Sampler: er_sde\n- Denoise: 0.6〜0.8\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 44,
+      "type": "UNETLoader",
+      "pos": [-350, 200],
+      "size": [307.578125, 82],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [98]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.11.0",
+        "Node name for S&R": "UNETLoader",
+        "models": [
+          {
+            "name": "anima-base-v1.0.safetensors",
+            "url": "https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/diffusion_models/anima-base-v1.0.safetensors",
+            "directory": "diffusion_models"
+          }
+        ]
+      },
+      "widgets_values": [
+        "anima-base-v1.0.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 45,
+      "type": "CLIPLoader",
+      "pos": [-350, 390],
+      "size": [307.578125, 116.65625],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [80, 81]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.11.0",
+        "Node name for S&R": "CLIPLoader",
+        "models": [
+          {
+            "name": "qwen_3_06b_base.safetensors",
+            "url": "https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/text_encoders/qwen_3_06b_base.safetensors",
+            "directory": "text_encoders"
+          }
+        ]
+      },
+      "widgets_values": [
+        "qwen_3_06b_base.safetensors",
+        "stable_diffusion",
+        "default"
+      ]
+    },
+    {
+      "id": 15,
+      "type": "VAELoader",
+      "pos": [-350, 600],
+      "size": [307.578125, 82],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [11, 92]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "VAELoader",
+        "models": [
+          {
+            "name": "qwen_image_vae.safetensors",
+            "url": "https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/vae/qwen_image_vae.safetensors",
+            "directory": "vae"
+          }
+        ]
+      },
+      "widgets_values": [
+        "qwen_image_vae.safetensors"
+      ]
+    },
+    {
+      "id": 100,
+      "type": "LoadImage",
+      "pos": [-350, 760],
+      "size": [315, 314],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [90]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "ベース画像 (Base Image)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "base_image.png",
+        "image"
+      ]
+    },
+    {
+      "id": 101,
+      "type": "LoadImage",
+      "pos": [-350, 1140],
+      "size": [315, 314],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [110]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "キャラクター参照画像 (Character Reference)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "character_ref.png",
+        "image"
+      ]
+    },
+    {
+      "id": 102,
+      "type": "VAEEncode",
+      "pos": [70, 910],
+      "size": [210, 46],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 90
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 92
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [94]
+        }
+      ],
+      "title": "VAEEncode (ベース画像→Latent)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "VAEEncode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 11,
+      "type": "CLIPTextEncode",
+      "pos": [70, 150],
+      "size": [531.8, 490.1],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 80
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [39]
+        }
+      ],
+      "title": "CLIP Text Encode (Positive Prompt)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.65",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "masterpiece, best quality, score_7, safe,\nanime style with pixel-art inspired shading,\nsame character, consistent appearance,\n\n[character core]\nyoung female, short brown hair,\nconfident expression, sharp eyes,\nred and black themed outfit,\nred vest with black accents,\nblack skirt or shorts,\nlong black coat with red inner lining,\nblack stockings, black boots,\nslim athletic proportions,\nupright posture, dynamic silhouette,\n\n[view]\nsingle character, front-facing view,\nfull body, one pose only, no character sheet,\nno multiple angles, no side view, no profile view,\n\n[style]\nsoft modern-anime lineart,\npixel-art friendly shading,\nclean silhouette, crisp edges,\n\n[quality]\nultra clean structure,\nstable proportions, no deformation,\n"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 12,
+      "type": "CLIPTextEncode",
+      "pos": [70, 690],
+      "size": [512.4, 269.7],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 81
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [40]
+        }
+      ],
+      "title": "CLIP Text Encode (Negative Prompt)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.65",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "2girls, two characters, multiple characters, duplicate, clone, mirror,\ncharacter sheet, multiple views, side view, profile view, reference sheet,\nlong hair, different hair color, fluffy hair, curly hair,\nround big eyes, moe eyes, chibi eyes, thick eyebrows,\nbaby face, overly round face, exaggerated lips, duck lips,\nstiff pose, awkward posture, unnatural limb angles,\nextra limbs, missing limbs, distorted anatomy,\nchibi proportions, deformed proportions,\nheavy clothing, fantasy armor, excessive accessories,\nmessy lineart, washed-out colors,\ntext, watermark, signature,\nblurry, low quality, jpeg artifacts,\ndifferent outfit, different color scheme,\n"
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 120,
+      "type": "IPAdapterUnifiedLoader",
+      "pos": [70, 1160],
+      "size": [315, 100],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 98
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [121]
+        },
+        {
+          "name": "ipadapter",
+          "type": "IPADAPTER",
+          "slot_index": 1,
+          "links": [118]
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI_IPAdapter_plus",
+        "Node name for S&R": "IPAdapterUnifiedLoader"
+      },
+      "widgets_values": [
+        "PLUS (high strength)"
+      ]
+    },
+    {
+      "id": 119,
+      "type": "IPAdapter",
+      "pos": [380, 200],
+      "size": [260, 220],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 121
+        },
+        {
+          "name": "ipadapter",
+          "type": "IPADAPTER",
+          "link": 118
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 110
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [117]
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI_IPAdapter_plus",
+        "Node name for S&R": "IPAdapter"
+      },
+      "widgets_values": [
+        0.5,
+        0.0,
+        1.0,
+        "style transfer"
+      ]
+    },
+    {
+      "id": 19,
+      "type": "KSampler",
+      "pos": [700, 150],
+      "size": [290, 430],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 117
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 39
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 40
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 94
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [10]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        150662020094145,
+        "randomize",
+        30,
+        4,
+        "er_sde",
+        "simple",
+        0.35
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [1050, 150],
+      "size": [225, 71.3],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 10
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [82]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 46,
+      "type": "SaveImage",
+      "pos": [1330, 150],
+      "size": [580, 640],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 82
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.11.1",
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    }
+  ],
+  "links": [
+    [10, 19, 0, 8, 0, "LATENT"],
+    [11, 15, 0, 8, 1, "VAE"],
+    [39, 11, 0, 19, 1, "CONDITIONING"],
+    [40, 12, 0, 19, 2, "CONDITIONING"],
+    [80, 45, 0, 11, 0, "CLIP"],
+    [81, 45, 0, 12, 0, "CLIP"],
+    [82, 8, 0, 46, 0, "IMAGE"],
+    [90, 100, 0, 102, 0, "IMAGE"],
+    [92, 15, 0, 102, 1, "VAE"],
+    [94, 102, 0, 19, 3, "LATENT"],
+    [98, 44, 0, 120, 0, "MODEL"],
+    [110, 101, 0, 119, 2, "IMAGE"],
+    [118, 120, 1, 119, 1, "IPADAPTER"],
+    [117, 119, 0, 19, 0, "MODEL"],
+    [121, 120, 0, 119, 0, "MODEL"]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Step 1 - Load Models",
+      "bounding": [-370, 180, 360, 530],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Step 2 - ベース画像 (img2img)",
+      "bounding": [-370, 740, 680, 240],
+      "color": "#5e7e3f",
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Step 2b - キャラクター参照画像 (IP-Adapter)",
+      "bounding": [-370, 1120, 360, 360],
+      "color": "#7e6f3f",
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "Step 3 - Prompt",
+      "bounding": [50, 130, 580, 860],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "Step 4 - Generate",
+      "bounding": [680, 130, 1280, 480],
+      "color": "#7e4f3f",
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5,
+      "offset": [450, 60]
+    },
+    "workflowRendererVersion": "LG",
+    "frontendVersion": "1.44.19",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}
