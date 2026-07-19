@@ -1,0 +1,827 @@
+{
+  "id": "f7a250a1-53fb-496b-8c39-c60d9e764028",
+  "revision": 0,
+  "last_node_id": 54,
+  "last_link_id": 83,
+  "nodes": [
+    {
+      "id": 48,
+      "type": "MarkdownNote",
+      "pos": [
+        -921.6665868936614,
+        123.33333812872897
+      ],
+      "size": [
+        660,
+        928.59375
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "## About Anima\n\n[Anima](https://huggingface.co/circlestone-labs/Anima) (2B-parameter, CircleStone/Comfy Org): Anime/non-photorealistic text-to-image model (no realism). Preview version trained on anime; final version to improve details.\n\nLimitations: poor realism (intentional), weak high-res/text, plain style.\n\n## Model Links (for Local Users)\n\n**text_encoders**\n\n- [qwen_3_06b_base.safetensors](https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/text_encoders/qwen_3_06b_base.safetensors)\n\n**vae**\n\n- [qwen_image_vae.safetensors](https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/vae/qwen_image_vae.safetensors)\n\n**diffusion_models**\n\n- [anima-preview.safetensors](https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/diffusion_models/anima-preview.safetensors)\n\n\n## Model Storage Location\n\n```\n📂 ComfyUI/\n├── 📂 models/\n│   ├── 📂 text_encoders/\n│   │   └── qwen_3_06b_base.safetensors\n│   ├── 📂 vae/\n│   │   └── qwen_image_vae.safetensors\n│   └── 📂 diffusion_models/\n│       └── anima-preview.safetensors\n```\n\n## Report Issue\n\nNote: Please update ComfyUI first ([guide](https://docs.comfy.org/zh-CN/installation/update_comfyui)) and prepare required models. Desktop/Cloud ship stable builds; nightly-supported models may not be included yet, please wait for the next stable release.\n\n- Cannot run / runtime errors: [ComfyUI/issues](https://github.com/comfyanonymous/ComfyUI/issues)\n- UI / frontend issues: [ComfyUI_frontend/issues](https://github.com/Comfy-Org/ComfyUI_frontend/issues)\n- Workflow issues: [workflow_templates/issues](https://github.com/Comfy-Org/workflow_templates/issues)\n"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [
+        749.9999785705112,
+        689.9999745292909
+      ],
+      "size": [
+        225,
+        71.328125
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 10
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            82
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "VAEDecode",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 45,
+      "type": "CLIPLoader",
+      "pos": [
+        -323.96109932526576,
+        402.07473020806515
+      ],
+      "size": [
+        307.578125,
+        116.65625
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            80,
+            81
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.11.0",
+        "Node name for S&R": "CLIPLoader",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "models": [
+          {
+            "name": "qwen_3_06b_base.safetensors",
+            "url": "https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/text_encoders/qwen_3_06b_base.safetensors",
+            "directory": "text_encoders"
+          }
+        ]
+      },
+      "widgets_values": [
+        "qwen_3_06b_base.safetensors",
+        "stable_diffusion",
+        "default"
+      ]
+    },
+    {
+      "id": 15,
+      "type": "VAELoader",
+      "pos": [
+        -182.3528954887396,
+        897.8271669920241
+      ],
+      "size": [
+        307.578125,
+        82
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "VAELoader",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "models": [
+          {
+            "name": "qwen_image_vae.safetensors",
+            "url": "https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/vae/qwen_image_vae.safetensors",
+            "directory": "vae"
+          }
+        ]
+      },
+      "widgets_values": [
+        "qwen_image_vae.safetensors"
+      ]
+    },
+    {
+      "id": 49,
+      "type": "ColorToRGBInt",
+      "pos": [
+        725.03233120386,
+        821.1278229376683
+      ],
+      "size": [
+        270,
+        98
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "rgb_int",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "hex",
+          "type": "COLOR",
+          "links": null
+        },
+        {
+          "name": "alpha",
+          "type": "FLOAT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.16.4",
+        "Node name for S&R": "ColorToRGBInt"
+      },
+      "widgets_values": [
+        "#000000"
+      ]
+    },
+    {
+      "id": 50,
+      "type": "ImageCompositeMasked",
+      "pos": [
+        1063.1488181098775,
+        737.5389013915294
+      ],
+      "size": [
+        270,
+        187.328125
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "destination",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "source",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "mask",
+          "shape": 7,
+          "type": "MASK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.16.4",
+        "Node name for S&R": "ImageCompositeMasked"
+      },
+      "widgets_values": [
+        0,
+        0,
+        false
+      ]
+    },
+    {
+      "id": 51,
+      "type": "ColorToRGBInt",
+      "pos": [
+        903.8102171590356,
+        937.3430046452041
+      ],
+      "size": [
+        270,
+        98
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "rgb_int",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "hex",
+          "type": "COLOR",
+          "links": null
+        },
+        {
+          "name": "alpha",
+          "type": "FLOAT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.16.4",
+        "Node name for S&R": "ColorToRGBInt"
+      },
+      "widgets_values": [
+        "#000000"
+      ]
+    },
+    {
+      "id": 53,
+      "type": "Reroute",
+      "pos": [
+        127.57811809162331,
+        684.4362980189746
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 83
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "LATENT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 44,
+      "type": "UNETLoader",
+      "pos": [
+        -223.333233140836,
+        196.6666084251999
+      ],
+      "size": [
+        307.578125,
+        82
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            79
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.11.0",
+        "Node name for S&R": "UNETLoader",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "models": [
+          {
+            "name": "anima-preview.safetensors",
+            "url": "https://huggingface.co/circlestone-labs/Anima/resolve/main/split_files/diffusion_models/anima-preview.safetensors",
+            "directory": "diffusion_models"
+          }
+        ]
+      },
+      "widgets_values": [
+        "anima-base-v1.0.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 28,
+      "type": "EmptyLatentImage",
+      "pos": [
+        -209.99999071864994,
+        680.000012918939
+      ],
+      "size": [
+        307.578125,
+        143.328125
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            78,
+            83
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "EmptyLatentImage",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        520,
+        720,
+        2
+      ]
+    },
+    {
+      "id": 19,
+      "type": "KSampler",
+      "pos": [
+        713.8374033789091,
+        137.6612932936283
+      ],
+      "size": [
+        290,
+        430
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 79
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 39
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 40
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 78
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.40",
+        "Node name for S&R": "KSampler",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        698763008143518,
+        "randomize",
+        30,
+        4,
+        "er_sde",
+        "simple",
+        1
+      ]
+    },
+    {
+      "id": 52,
+      "type": "Note",
+      "pos": [
+        -193.33908578990008,
+        1036.5080397723616
+      ],
+      "size": [
+        916.9180461059495,
+        490.88409022581845
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "表情\n\nmasterpiece, best quality, anime style, high detail face, happy expression, joyful smile, bright eyes, smiling mouth, cheerful, warm smile, sparkling eyes, visible teeth optional, soft blush, relaxed cheeks, natural lighting, high resolution details,\n\nsmile,\n\n\n\ntongue sticking out with wink,\n\nhip,up,strip,squat,on all fours,\n\nmissionary position,On your back,\n\narms raised and placed behind the head,\nelbows pointing outward in a relaxed position,\n\nwide-legged pose,\nlegs spread apart for stability,\ndynamic action stance,\nknees bent, balanced posture,\n\nopera gloves,\nbreast milk,\nnipple earring,\n\nG-string,\ntanga,\n\n\nclosed eyes,\n\nblow job,\nFellatio,\n\non all fours,\ndoggy pose,\nKneel on both knees,\nput both hands on,\n\n\nhead at the top of the frame,\nfeet at the bottom of the frame,\nbody aligned vertically, not rotated,\n\n\nlook up,\n\nblow job,\nFellatio,\n\nbreasts with hand,\nbreasts sandwich penis,\n\n\npenis to hold in the mouth,\nlick penis,\nbreasts sandwich penis,\ngrasp penis,\nblow job,\nadult woman's sloppy blowjob,\n\n\n\n[outfit]\n\nelegant tight mini skirt,\n\n\nhigh heels,\nbra,\nT-back,\n\n\nAlmost undressed,ornaments,\n\nfishnet tights,\ngarter belt,\n\n\nhigh-waist design emphasizing silhouette,\nsmooth clean fabric with subtle sheen,\nform-fitting shape around hips and waist,\nnatural vertical folds for realism,\npaired with a fitted top for balanced proportions,\nmature refined style with understated allure,\n\n\n[black hair,]\n\ntear fishnet tights,\ngarter belt,\n\n\nclosed mouth, lips closed, mouth shut, slight smile only, neutral mouth, one eye open only, no open mouth, muted expression, text, watermark, logo, low quality, blurry,\n\nno tongue, hidden tongue, closed mouth, lips closed, mouth shut, gore, blood, explicit sexual content, obscene gesture, text, watermark, logo, low quality, blurry,\n\nwet chin, subtle saliva shine, \n\nclosed eyes if undesired,\ncrotch open,\n\nturn around,\n\n\n\n[Long eyelashes,]\n\n front-angle shot,\ncamera angle from top, looking top,top view,\n\ntop view, character facing away from the camera,\n\n\npenis to hold in the mouth,\nlick penis,\nbreasts sandwich penis,\ngrasp penis,\nblow job,\n\nblow job,\nadult woman's sloppy blowjob,\n\n\nvagina with hand,\n\n visible saliva at corner of mouth, \n\nmasterpiece, best quality, anime style, mouth wide open, mouth wide open with jaw dropped, mouth agape, wide open mouth, visible teeth, visible tongue, visible throat, parted lips, open jaw, expressive open mouth, shouting, surprised gasp, [strong vocal expression,] [dynamic facial expression,]\n[Fellatio,]\nBring breasts together with both hands,\n\n\n\nmasterpiece, best quality, anime style, high detail face, happy expression, joyful smile, bright eyes, smiling mouth, cheerful, warm smile, sparkling eyes, visible teeth optional, soft blush, relaxed cheeks, natural lighting, high resolution details,\n\n\n [mouth open,] [tongue out,][ sticking out tongue,]  tongue protruding, tongue between lips, parted lips, visible teeth optional, playful expression, expressive mouth detail,\n\n\nover-the-shoulder pose, head turned toward the viewer,\n\nfull body visible (or upper body visible),\n\n\ntop-down view, bird's-eye view,\nfull body visible, lying on back,\nhead positioned at the top of the frame,\nfeet positioned at the bottom of the frame,\nbody aligned vertically, not rotated,\narms resting naturally, legs relaxed,\ncentered composition, entire body in frame,\nneutral expression, calm posture,\nsoft lighting, clean lines, smooth shading,\nnot tilted, not angled from the side\n\n\n[view: front-strong]\ncamera angle: straight-on front view,\nface fully visible and centered,\nboth eyes clearly visible,\nno head turn, no angled view,\nno side profile, no 3/4 angle,\n\n[view: back-view strong]\ncamera angle: rear view from behind,\nfull back facing the camera,\nhead turned away from the viewer,\nno face visible, no front-facing angle,\nshoulders and back silhouette clearly visible,\n\n\n[view: back-low-angle strong]\ncamera angle: low-angle rear view,\nshot from below looking upward at the back,\nfull back facing the camera,\nhips and waist emphasized from low perspective,\nhead turned away from viewer,\nno face visible, no front-facing angle,\nclear silhouette of back, legs, and lower body,\ndramatic upward perspective,\n\n[view: front-low-angle strong]\ncamera angle: low-angle front view,\nshot from below looking upward,\nface fully visible and centered,\nboth eyes visible from upward perspective,\nslight upward distortion consistent with low angle,\nno side profile, no 3/4 angle,\nno downward view,\n\n\n[view: top-down strong]\ncamera angle: high-angle top-down view,\nshot from above looking downward,\nsubject viewed from upper perspective,\nhead and shoulders foreshortened naturally,\nno low-angle, no eye-level view,\nno upward perspective,\n\n\n\n[character core]\nadult woman in her late 40s to 50s,\ncalm and gentle mature expression,\nsoft almond-like eye shape (angle-flexible),\nthin refined eyebrows with natural arch,\nsmall straight nose with soft bridge shading,\nsoft full lips with natural curvature,\nshoulder-length straight black hair,\nsmooth natural texture with soft shine,\nlong bangs that adjust naturally depending on angle,\nside hair following the contour of the face,\nsoft feminine body lines with natural curves,\ndefined waistline and gentle hip curve,\nbalanced proportions, natural adult silhouette,\noverall impression: calm, elegant, mature, understated beauty,\n\n\n[character core]\nadult woman in her late 40s to 50s,\ncalm and gentle mature expression with confident allure,\nsoft almond-like eye shape (angle-flexible),\nthin refined eyebrows with a slightly bold arch,\nsmall straight nose with soft bridge shading,\nsoft full lips with natural curvature and healthy volume,\ndeep warm tan skin tone with smooth texture,\ngolden blonde hair with subtle highlights,\nshoulder-length straight hair with natural shine,\nlong bangs that adjust naturally depending on angle,\nside hair framing the face with gentle inward curve,\nsoft feminine body lines with natural curves,\ndefined waistline and gentle hip curve,\nbalanced proportions, natural adult silhouette,\noverall impression: elegant mature black-gal aesthetic with understated sensuality,\n\n[style]\nsoft modern-anime lineart,\n3–4 tone shading, warm skin undertones,\nclean background, muted color palette,\n\n\n[style: realism-shift]\nsemi-realistic rendering with enhanced material texture,\nmore defined shading and subtle gradients,\nrealistic cloth folds and natural fabric weight,\ndetailed lighting with soft bounce light,\nskin rendered with gentle subsurface scattering effect,\nhair strands drawn with finer separation and natural highlights,\neyes with realistic depth and subtle reflections,\noverall impression: grounded, semi-realistic anime aesthetic,\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 46,
+      "type": "SaveImage",
+      "pos": [
+        1030.6924944712866,
+        140.00000040007345
+      ],
+      "size": [
+        580,
+        640
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 82
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.11.1",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    },
+    {
+      "id": 54,
+      "type": "Note",
+      "pos": [
+        -591.0441521527624,
+        1347.2708817815092
+      ],
+      "size": [
+        786.5135206606584,
+        404.7448718372168
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "1. 正面（Front View）\nコード\n[view: front-strong]\ncamera angle: straight-on front view,\nface fully visible and centered,\nboth eyes clearly visible,\nno head turn, no angled view,\nno side profile, no 3/4 angle,\n📌 2. 3/4ビュー（Three-Quarter View）\nコード\n[view: 3/4 angle]\ncamera angle: three-quarter view,\nhead turned slightly to the side,\nboth eyes visible but one slightly narrower,\nnatural perspective on facial structure,\nno full side profile,\n📌 3. 横顔（Side View）左向き\nコード\n[view: side-left strong]\ncamera angle: strict side view,\ncharacter facing left,\nonly one eye visible,\nfull side profile,\nno 3/4 angle, no front view,\n📌 4. 横顔（Side View）右向き\nコード\n[view: side-right strong]\ncamera angle: strict side view,\ncharacter facing right,\nonly one eye visible,\nfull side profile,\nno 3/4 angle, no front view,\n📌 5. 見下ろし（Downward View / 上から）\nコード\n[view: downward]\ncamera angle: slightly above, looking down,\nupper eyelids more visible,\ntop-down feeling but not full bird's-eye,\nno side angle, no tilt,\n📌 6. 見上げ（Upward View / 下から）\nコード\n[view: upward]\ncamera angle: slightly below, looking up,\njawline emphasized,\nneck visible,\nno diagonal tilt, no side view,\n📌 7. 真上（Top-Down / Bird’s-Eye）\nコード\n[view: top-down strong]\ncamera angle: strict top-down view,\nbird's-eye perspective,\nshot directly from above,\nfull body visible and centered,\nno tilt, no diagonal angle,\n📌 8. 真下（Bottom-Up / Worm’s-Eye）\nコード\n[view: bottom-up strong]\ncamera angle: strict bottom-up view,\nworm's-eye perspective,\nlooking upward from below,\ndramatic foreshortening,\nno side angle, no 3/4 view,\n📌 9. サイド＋俯瞰（Side + Downward）\nコード\n[view: side-down]\ncamera angle: side profile with slight downward tilt,\nsoft shadow under eyelashes,\nhair framing the face naturally,\nno front view, no 3/4 view,\n📌 10. サイド＋見上げ（Side + Upward）\nコード\n[view: side-up]\ncamera angle: side profile with slight upward tilt,\njawline emphasized,\nneck line visible,\nno front view, no 3/4 view,\n📌 11. 背面（Back View）\nコード\n[view: back]\ncamera angle: rear view,\nback fully visible,\nno face visible,\nno side angle, no 3/4 view,\n📌 12. 背面ローアングル（Back Low Angle）\nコード\n[view: back-low]\ncamera angle: low angle from behind,\nlooking upward from below,\nback silhouette emphasized,\nno front view, no side view,\n\n\n\n[view: soft-downward]\ncamera angle: gentle downward angle,\nslightly above eye level, looking down,\nsubtle top-down perspective without full bird's-eye,\nboth eyes visible, natural foreshortening,\nno strict top-down, no side view,\nno diagonal tilt, no 3/4 misalignment,\n\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 12,
+      "type": "CLIPTextEncode",
+      "pos": [
+        159.946691867936,
+        716.1101702829402
+      ],
+      "size": [
+        512.375,
+        269.71875
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 81
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            40
+          ]
+        }
+      ],
+      "title": "CLIP Text Encode (Negative Prompt)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.65",
+        "Node name for S&R": "CLIPTextEncode",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        "full body, zoomed out, messy hair, asymmetrical buns,\nangry, crying, screaming, exaggerated cartoon face,\ndistorted arms, extra limbs, deformed hands,\nnsfw, gore\n"
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 11,
+      "type": "CLIPTextEncode",
+      "pos": [
+        161.66666929971657,
+        189.99998721410688
+      ],
+      "size": [
+        531.8113123927268,
+        490.09968523942405
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 80
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            39
+          ]
+        }
+      ],
+      "title": "CLIP Text Encode (Positive Prompt)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.65",
+        "Node name for S&R": "CLIPTextEncode",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        "masterpiece, best quality, anime style,\n\n[framing control]\nfull upper body visible, no cropping,\ncharacter fully inside frame, full head visible,\nample headroom, ample side space,\ncentered composition even in side-view,\ncamera pulled back slightly to avoid cut-off,\n\n[angle: side-view]\ncharacter facing sideways, clear profile silhouette,\nshoulders and chest fully visible from the side,\n\n[expression: downward gaze]\neyes looking downward, eyelids lowered,\ncalm introspective mood, quiet determination,\nslightly furrowed brows, stoic focused aura,\n\n[pose: crossed-arms]\narms firmly crossed over chest,\nshoulders slightly forward as he looks down,\nmuscular arms and chest emphasized from the side,\n\n[wind effect]\nhair and headband tails blowing sideways,\ngi fabric edges lifting slightly,\ngentle directional breeze adding atmosphere,\n\n[character core: ryu-inspired male fighter]\nadult male fighter, late 30s to 40s,\nrugged calm expression, strong jawline,\nmuscular upper body, seasoned warrior physique,\n\n[outfit: ryu-inspired gi]\nwhite sleeveless martial arts gi,\nfrayed or torn sleeve edges,\nvisible muscular shoulders and arms,\nslightly worn texture showing battle experience,\nred headband with flowing tails,\n"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    }
+  ],
+  "links": [
+    [
+      10,
+      19,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      11,
+      15,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      39,
+      11,
+      0,
+      19,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      40,
+      12,
+      0,
+      19,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      78,
+      28,
+      0,
+      19,
+      3,
+      "LATENT"
+    ],
+    [
+      79,
+      44,
+      0,
+      19,
+      0,
+      "MODEL"
+    ],
+    [
+      80,
+      45,
+      0,
+      11,
+      0,
+      "CLIP"
+    ],
+    [
+      81,
+      45,
+      0,
+      12,
+      0,
+      "CLIP"
+    ],
+    [
+      82,
+      8,
+      0,
+      46,
+      0,
+      "IMAGE"
+    ],
+    [
+      83,
+      28,
+      0,
+      53,
+      0,
+      "LATENT"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Step 1 - Load Models",
+      "bounding": [
+        -230,
+        98.33333333333333,
+        350,
+        490
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Step 2 - Image Size(1MP))",
+      "bounding": [
+        -230,
+        598.3333333333334,
+        350,
+        200
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Step3 - Prompt",
+      "bounding": [
+        145,
+        98.33333333333333,
+        520,
+        700
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.47207667697517447,
+      "offset": [
+        536.4384335928219,
+        306.7490781883931
+      ]
+    },
+    "workflowRendererVersion": "LG",
+    "frontendVersion": "1.45.20",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}
