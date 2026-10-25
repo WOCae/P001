@@ -1,0 +1,375 @@
+{
+ "id": "pose-transfer-qwen2511",
+ "revision": 0,
+ "last_node_id": 19,
+ "last_link_id": 26,
+ "nodes": [
+  {
+   "id": 19,
+   "type": "MarkdownNote",
+   "pos": [-620, -300],
+   "size": [560, 420],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "title": "使い方（ポーズ転写 / 無料T4向け）",
+   "properties": {},
+   "widgets_values": ["## ポーズ転写ワークフロー（Qwen-Image-Edit 2511 GGUF）\n\n1. **キャラ参照画像**: ポーズを変えたいキャラクターの画像をアップロード\n2. **ポーズ参照画像**: 真似させたいポーズの画像をアップロード\n   - 背景を消し、顔・頭部が入らないようトリミングすると、参照側の顔や髪型の混入を防げます\n3. Queue を押す。DWPose が骨格を抽出し、image3 として編集モデルに渡ります\n\n### T4での注意\n- Lightning LoRA 前提の **steps=4 / cfg=1.0** を変えないこと（上げると数分〜十数分/枚）\n- 初回実行は DWPose の検出モデルDLで1〜2分待ちます\n- VRAM不足で落ちる場合はノートブックの Step 4e-2 で `Q3_K_M` を選び直し、UnetLoaderGGUF のファイル名を変更\n\n### うまくいかない時\n- 複雑なポーズ（座り・腕組み）→ プロンプトにポーズの言語説明を追加\n- キャラが変わってしまう → プロンプトの identity 維持の文を強調、またはポーズ参照の頭部を確実に除去\n- 学習済みキャラLoRA（Anima用）は**このモデルには使えません**（ベースが別モデルのため）"],
+   "color": "#432",
+   "bgcolor": "#653"
+  },
+  {
+   "id": 1,
+   "type": "UnetLoaderGGUF",
+   "pos": [-620, 180],
+   "size": [420, 60],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {"name": "MODEL", "type": "MODEL", "slot_index": 0, "links": [1]}
+   ],
+   "title": "編集モデル（GGUF）",
+   "properties": {"Node name for S&R": "UnetLoaderGGUF"},
+   "widgets_values": ["qwen-image-edit-2511-Q4_0.gguf"]
+  },
+  {
+   "id": 7,
+   "type": "LoraLoaderModelOnly",
+   "pos": [-160, 180],
+   "size": [400, 82],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {"name": "model", "type": "MODEL", "link": 1}
+   ],
+   "outputs": [
+    {"name": "MODEL", "type": "MODEL", "slot_index": 0, "links": [16]}
+   ],
+   "title": "Lightning 4steps LoRA",
+   "properties": {"Node name for S&R": "LoraLoaderModelOnly"},
+   "widgets_values": ["Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors", 1.0]
+  },
+  {
+   "id": 8,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [280, 180],
+   "size": [280, 58],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {"name": "model", "type": "MODEL", "link": 16}
+   ],
+   "outputs": [
+    {"name": "MODEL", "type": "MODEL", "slot_index": 0, "links": [17]}
+   ],
+   "properties": {"Node name for S&R": "ModelSamplingAuraFlow"},
+   "widgets_values": [3.1]
+  },
+  {
+   "id": 9,
+   "type": "CFGNorm",
+   "pos": [600, 180],
+   "size": [220, 58],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {"name": "model", "type": "MODEL", "link": 17}
+   ],
+   "outputs": [
+    {"name": "patched_model", "type": "MODEL", "slot_index": 0, "links": [18]}
+   ],
+   "properties": {"Node name for S&R": "CFGNorm"},
+   "widgets_values": [1.0]
+  },
+  {
+   "id": 2,
+   "type": "CLIPLoader",
+   "pos": [-620, 300],
+   "size": [420, 106],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {"name": "CLIP", "type": "CLIP", "slot_index": 0, "links": [2, 3]}
+   ],
+   "title": "text encoder（Qwen2.5-VL）",
+   "properties": {"Node name for S&R": "CLIPLoader"},
+   "widgets_values": ["qwen_2.5_vl_7b_fp8_scaled.safetensors", "qwen_image", "default"]
+  },
+  {
+   "id": 3,
+   "type": "VAELoader",
+   "pos": [-620, 460],
+   "size": [420, 58],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {"name": "VAE", "type": "VAE", "slot_index": 0, "links": [4, 5, 6, 7]}
+   ],
+   "properties": {"Node name for S&R": "VAELoader"},
+   "widgets_values": ["qwen_image_vae.safetensors"]
+  },
+  {
+   "id": 4,
+   "type": "LoadImage",
+   "pos": [-620, 580],
+   "size": [340, 314],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {"name": "IMAGE", "type": "IMAGE", "slot_index": 0, "links": [8, 9, 10]},
+    {"name": "MASK", "type": "MASK", "slot_index": 1, "links": []}
+   ],
+   "title": "① キャラ参照画像（image1）",
+   "properties": {"Node name for S&R": "LoadImage"},
+   "widgets_values": ["character.png", "image"]
+  },
+  {
+   "id": 5,
+   "type": "LoadImage",
+   "pos": [-240, 580],
+   "size": [340, 314],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {"name": "IMAGE", "type": "IMAGE", "slot_index": 0, "links": [11, 12, 13]},
+    {"name": "MASK", "type": "MASK", "slot_index": 1, "links": []}
+   ],
+   "title": "② ポーズ参照画像（image2）",
+   "properties": {"Node name for S&R": "LoadImage"},
+   "widgets_values": ["pose.png", "image"]
+  },
+  {
+   "id": 6,
+   "type": "DWPreprocessor",
+   "pos": [140, 580],
+   "size": [340, 198],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {"name": "image", "type": "IMAGE", "link": 13}
+   ],
+   "outputs": [
+    {"name": "IMAGE", "type": "IMAGE", "slot_index": 0, "links": [14, 15]},
+    {"name": "POSE_KEYPOINT", "type": "POSE_KEYPOINT", "slot_index": 1, "links": []}
+   ],
+   "title": "③ DWPose骨格抽出（image3）",
+   "properties": {"Node name for S&R": "DWPreprocessor"},
+   "widgets_values": ["enable", "enable", "enable", 512, "yolox_l.onnx", "dw-ll_ucoco_384_bs5.torchscript.pt", "disable"]
+  },
+  {
+   "id": 10,
+   "type": "TextEncodeQwenImageEditPlus",
+   "pos": [560, 320],
+   "size": [440, 260],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {"name": "clip", "type": "CLIP", "link": 2},
+    {"name": "vae", "type": "VAE", "link": 4},
+    {"name": "image1", "type": "IMAGE", "link": 8},
+    {"name": "image2", "type": "IMAGE", "link": 11},
+    {"name": "image3", "type": "IMAGE", "link": 14}
+   ],
+   "outputs": [
+    {"name": "CONDITIONING", "type": "CONDITIONING", "slot_index": 0, "links": [19]}
+   ],
+   "title": "ポジティブプロンプト",
+   "properties": {"Node name for S&R": "TextEncodeQwenImageEditPlus"},
+   "widgets_values": ["Make the character in image 1 take the exact pose shown in image 2. Image 3 is the pose skeleton showing the target body position. Keep the character's identity, face, hairstyle, outfit, colors and art style exactly the same as in image 1. Keep the background of image 1."]
+  },
+  {
+   "id": 11,
+   "type": "TextEncodeQwenImageEditPlus",
+   "pos": [560, 640],
+   "size": [440, 260],
+   "flags": {"collapsed": false},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {"name": "clip", "type": "CLIP", "link": 3},
+    {"name": "vae", "type": "VAE", "link": 5},
+    {"name": "image1", "type": "IMAGE", "link": 9},
+    {"name": "image2", "type": "IMAGE", "link": 12},
+    {"name": "image3", "type": "IMAGE", "link": 15}
+   ],
+   "outputs": [
+    {"name": "CONDITIONING", "type": "CONDITIONING", "slot_index": 0, "links": [20]}
+   ],
+   "title": "ネガティブプロンプト（空でOK）",
+   "properties": {"Node name for S&R": "TextEncodeQwenImageEditPlus"},
+   "widgets_values": [""]
+  },
+  {
+   "id": 12,
+   "type": "FluxKontextMultiReferenceLatentMethod",
+   "pos": [1040, 320],
+   "size": [320, 58],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {"name": "conditioning", "type": "CONDITIONING", "link": 19}
+   ],
+   "outputs": [
+    {"name": "CONDITIONING", "type": "CONDITIONING", "slot_index": 0, "links": [21]}
+   ],
+   "properties": {"Node name for S&R": "FluxKontextMultiReferenceLatentMethod"},
+   "widgets_values": ["index_timestep_zero"]
+  },
+  {
+   "id": 13,
+   "type": "FluxKontextMultiReferenceLatentMethod",
+   "pos": [1040, 640],
+   "size": [320, 58],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [
+    {"name": "conditioning", "type": "CONDITIONING", "link": 20}
+   ],
+   "outputs": [
+    {"name": "CONDITIONING", "type": "CONDITIONING", "slot_index": 0, "links": [22]}
+   ],
+   "properties": {"Node name for S&R": "FluxKontextMultiReferenceLatentMethod"},
+   "widgets_values": ["index_timestep_zero"]
+  },
+  {
+   "id": 14,
+   "type": "FluxKontextImageScale",
+   "pos": [-240, 940],
+   "size": [280, 42],
+   "flags": {},
+   "order": 14,
+   "mode": 0,
+   "inputs": [
+    {"name": "image", "type": "IMAGE", "link": 10}
+   ],
+   "outputs": [
+    {"name": "IMAGE", "type": "IMAGE", "slot_index": 0, "links": [23]}
+   ],
+   "properties": {"Node name for S&R": "FluxKontextImageScale"},
+   "widgets_values": []
+  },
+  {
+   "id": 15,
+   "type": "VAEEncode",
+   "pos": [100, 940],
+   "size": [220, 62],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
+   "inputs": [
+    {"name": "pixels", "type": "IMAGE", "link": 23},
+    {"name": "vae", "type": "VAE", "link": 6}
+   ],
+   "outputs": [
+    {"name": "LATENT", "type": "LATENT", "slot_index": 0, "links": [24]}
+   ],
+   "properties": {"Node name for S&R": "VAEEncode"},
+   "widgets_values": []
+  },
+  {
+   "id": 16,
+   "type": "KSampler",
+   "pos": [1420, 320],
+   "size": [340, 282],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
+   "inputs": [
+    {"name": "model", "type": "MODEL", "link": 18},
+    {"name": "positive", "type": "CONDITIONING", "link": 21},
+    {"name": "negative", "type": "CONDITIONING", "link": 22},
+    {"name": "latent_image", "type": "LATENT", "link": 24}
+   ],
+   "outputs": [
+    {"name": "LATENT", "type": "LATENT", "slot_index": 0, "links": [25]}
+   ],
+   "title": "KSampler（Lightning: steps=4, cfg=1.0）",
+   "properties": {"Node name for S&R": "KSampler"},
+   "widgets_values": [42, "randomize", 4, 1.0, "euler", "simple", 1.0]
+  },
+  {
+   "id": 17,
+   "type": "VAEDecode",
+   "pos": [1420, 660],
+   "size": [220, 62],
+   "flags": {},
+   "order": 17,
+   "mode": 0,
+   "inputs": [
+    {"name": "samples", "type": "LATENT", "link": 25},
+    {"name": "vae", "type": "VAE", "link": 7}
+   ],
+   "outputs": [
+    {"name": "IMAGE", "type": "IMAGE", "slot_index": 0, "links": [26]}
+   ],
+   "properties": {"Node name for S&R": "VAEDecode"},
+   "widgets_values": []
+  },
+  {
+   "id": 18,
+   "type": "SaveImage",
+   "pos": [1800, 320],
+   "size": [400, 450],
+   "flags": {},
+   "order": 18,
+   "mode": 0,
+   "inputs": [
+    {"name": "images", "type": "IMAGE", "link": 26}
+   ],
+   "outputs": [],
+   "properties": {"Node name for S&R": "SaveImage"},
+   "widgets_values": ["pose_transfer"]
+  }
+ ],
+ "links": [
+  [1, 1, 0, 7, 0, "MODEL"],
+  [2, 2, 0, 10, 0, "CLIP"],
+  [3, 2, 0, 11, 0, "CLIP"],
+  [4, 3, 0, 10, 1, "VAE"],
+  [5, 3, 0, 11, 1, "VAE"],
+  [6, 3, 0, 15, 1, "VAE"],
+  [7, 3, 0, 17, 1, "VAE"],
+  [8, 4, 0, 10, 2, "IMAGE"],
+  [9, 4, 0, 11, 2, "IMAGE"],
+  [10, 4, 0, 14, 0, "IMAGE"],
+  [11, 5, 0, 10, 3, "IMAGE"],
+  [12, 5, 0, 11, 3, "IMAGE"],
+  [13, 5, 0, 6, 0, "IMAGE"],
+  [14, 6, 0, 10, 4, "IMAGE"],
+  [15, 6, 0, 11, 4, "IMAGE"],
+  [16, 7, 0, 8, 0, "MODEL"],
+  [17, 8, 0, 9, 0, "MODEL"],
+  [18, 9, 0, 16, 0, "MODEL"],
+  [19, 10, 0, 12, 0, "CONDITIONING"],
+  [20, 11, 0, 13, 0, "CONDITIONING"],
+  [21, 12, 0, 16, 1, "CONDITIONING"],
+  [22, 13, 0, 16, 2, "CONDITIONING"],
+  [23, 14, 0, 15, 0, "IMAGE"],
+  [24, 15, 0, 16, 3, "LATENT"],
+  [25, 16, 0, 17, 0, "LATENT"],
+  [26, 17, 0, 18, 0, "IMAGE"]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}
