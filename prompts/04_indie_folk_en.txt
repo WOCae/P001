@@ -1,0 +1,34 @@
+# 英語のインディー・フォーク(歌入り)
+# ComfyUI設定: bpm=96 / timesignature=4 / language=en / keyscale=G major / 長さ=120秒
+# ※未検証サンプル。[Instrumental] が効かない場合は lyrics を空にして試す。
+
+### tags
+Indie folk ballad, warm male vocals, fingerpicked acoustic guitar, soft brushed drums, gentle upright bass, harmonica, intimate and nostalgic, lo-fi warmth
+
+### lyrics
+[Verse 1]
+Dust on the dashboard, sun going down
+Two-lane highway leaving this town
+I kept your letter folded in my coat
+Every mile whispers what I never wrote
+
+[Chorus]
+Take me home where the porch lights glow
+Where the river runs slow
+I've been wandering far too long
+Sing me back with your quiet song
+
+[Verse 2]
+Coffee gone cold at a roadside stand
+Wedding ring tan line on my hand
+Maybe the road was never the cure
+Maybe I just wanted something sure
+
+[Chorus]
+Take me home where the porch lights glow
+Where the river runs slow
+I've been wandering far too long
+Sing me back with your quiet song
+
+[Outro]
+mm… hmm…

@@ -1,0 +1,9 @@
+# ローファイ・ヒップホップ(インスト寄り)
+# ComfyUI設定: bpm=80 / timesignature=4 / language=unknown / keyscale=A minor / 長さ=90秒
+# ※未検証サンプル。[Instrumental] が効かない場合は lyrics を空にして試す。
+
+### tags
+Lo-fi hip hop, mellow, dusty vinyl crackle, soft jazzy electric piano, laid-back drum groove, warm sub bass, relaxing late-night study vibe, instrumental
+
+### lyrics
+[Instrumental]

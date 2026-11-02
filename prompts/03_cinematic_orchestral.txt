@@ -1,0 +1,9 @@
+# 壮大なシネマティック・オーケストラ
+# ComfyUI設定: bpm=90 / timesignature=4 / language=unknown / keyscale=D minor / 長さ=120秒
+# ※未検証サンプル。[Instrumental] が効かない場合は lyrics を空にして試す。
+
+### tags
+Epic cinematic orchestral, powerful strings, thundering taiko drums, soaring brass, choir pads, slow build to a massive climax, heroic and emotional, film trailer score, instrumental
+
+### lyrics
+[Instrumental]

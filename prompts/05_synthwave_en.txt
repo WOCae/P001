@@ -1,0 +1,25 @@
+# シンセウェイブ(夜のドライブ、歌入り)
+# ComfyUI設定: bpm=110 / timesignature=4 / language=en / keyscale=F# minor / 長さ=120秒
+# ※未検証サンプル。[Instrumental] が効かない場合は lyrics を空にして試す。
+
+### tags
+Synthwave, retro 80s, pulsing analog bassline, gated reverb snare, lush pads, dreamy female vocals with vocoder, neon night drive atmosphere, cinematic and nostalgic
+
+### lyrics
+[Intro]
+ooh… ooh…
+
+[Verse]
+Neon rain on the empty street
+Heartbeat locked to the engine beat
+City lights bleeding into the sky
+Chasing a ghost as the hours go by
+
+[Chorus]
+Drive, drive into the night
+Chrome and starlight
+Hold on to the fading glow
+Never let it go
+
+[Outro]
+ooh… ooh…

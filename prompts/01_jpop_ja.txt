@@ -1,0 +1,36 @@
+# 日本語ポップス(歌入り)
+# ComfyUI設定: bpm=128 / timesignature=4 / language=ja / keyscale=C major / 長さ=120秒
+# ※未検証サンプル。[Instrumental] が効かない場合は lyrics を空にして試す。
+
+### tags
+Upbeat J-pop, bright female vocals, catchy melody, punchy drums, sparkling synth arpeggios, driving bass, energetic and uplifting, polished modern production
+
+### lyrics
+[Verse 1]
+朝の光が カーテンの隙間
+いつもの道が 今日は少し違う
+ポケットの中の 小さな勇気
+握りしめたまま 駅へ走るよ
+
+[Pre-Chorus]
+ほら 風が背中を押してる
+迷ってる時間はないよ
+
+[Chorus]
+走り出せ 空の向こうまで
+胸の奥の音が鳴ってる
+Let it shine 止まらないで
+今日がきっと 始まりだから
+
+[Verse 2]
+昨日の涙は 置いていこう
+新しい靴で 一歩を踏み出す
+
+[Chorus]
+走り出せ 空の向こうまで
+胸の奥の音が鳴ってる
+Let it shine 止まらないで
+今日がきっと 始まりだから
+
+[Outro]
+ラララ…
